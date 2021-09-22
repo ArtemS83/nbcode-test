@@ -1,9 +1,10 @@
 import Container from 'components/Container';
+import AddEventForm from 'components/AddEventForm';
 
 const App = () => {
   return (
     <Container>
-      <h1>Hello</h1>
+      <AddEventForm />
     </Container>
   );
 };
