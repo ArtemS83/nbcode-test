@@ -4,6 +4,7 @@ import styles from './Button.module.scss';
 const Button = ({ title, type, onClick }) => {
   return (
     <button
+      data-testid="onClickFn"
       className={type === 'button' ? styles.buttonButton : styles.button}
       type={type}
       onClick={onClick}

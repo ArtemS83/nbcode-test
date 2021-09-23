@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddEventForm AddEventForm should render properly 1`] = `
+<div>
+  <button
+    class="buttonButton"
+    data-testid="onClickFn"
+    type="button"
+  >
+    Click me
+  </button>
+</div>
+`;
