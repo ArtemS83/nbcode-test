@@ -1,52 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import styles from './AddEventForm.module.scss';
 import Button from '../Button';
 import { addEvent } from 'redux/events/event-actions';
 
+const initialState = {
+  firstName: '',
+  lastName: '',
+  date: new Date().toISOString().substring(0, 10),
+  email: '',
+};
+
 const AddEventForm = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [date, setDate] = useState('');
+  const [formState, setFormState] = useState(initialState);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const dispatch = useDispatch();
 
-  const handleInputChange = ({ target }) => {
-    const { value, name } = target;
-    switch (name) {
-      case 'firstName':
-        setFirstName(value);
-        return;
-      case 'lastName':
-        setLastName(value);
-        return;
-      case 'email':
-        setEmail(value);
-        return;
-      case 'date':
-        setDate(value);
-        return;
+  const { firstName, lastName, date, email } = formState;
 
-      default:
-        return;
+  const handleInputChange = e =>
+    setFormState({ ...formState, [e.target.name]: e.target.value });
+
+  useEffect(() => {
+    if (firstName.trim() && lastName.trim() && email.trim() && date) {
+      setIsDisabled(false);
+      return;
     }
-  };
+    setIsDisabled(true);
+  }, [firstName, lastName, email, date]);
 
   const resetForm = () => {
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setDate('');
+    setFormState(initialState);
+    setIsDisabled(true);
   };
 
   const handleAddEvent = e => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !date) {
-      alert(`Please fill in all fields! `);
-      return;
-    }
+
     const newEvent = {
       id: uuid(),
       firstName,
@@ -57,7 +49,6 @@ const AddEventForm = () => {
     dispatch(addEvent(newEvent));
     resetForm();
   };
-
   return (
     <form className={styles.Form} onSubmit={handleAddEvent}>
       <label className={styles.label}>
@@ -114,7 +105,7 @@ const AddEventForm = () => {
       </label>
       <div className={styles.divBtn}>
         <Button title="Reset form" onClick={resetForm} />
-        <Button title="Add Event" type="submit" />
+        <Button title="Add Event" type="submit" disabled={isDisabled} />
       </div>
     </form>
   );
