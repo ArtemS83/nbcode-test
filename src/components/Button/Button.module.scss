@@ -11,16 +11,21 @@
   outline: none;
   cursor: pointer;
   transition: all 300ms ease-in-out;
-  &:hover,
+  &:hover:not(:disabled),
   &:focus {
-    background-color: #78beec; //78beec //rgb(206, 110, 211)
+    background-color: #78beec;
     transform: scale(1.03);
+  }
+  &:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: auto;
   }
 }
 
 .buttonButton {
   @extend .button;
-  // padding: 5px 10px;
   background-image: linear-gradient(
     120deg,
     rgba(30, 218, 218, 0.6) 0%,
